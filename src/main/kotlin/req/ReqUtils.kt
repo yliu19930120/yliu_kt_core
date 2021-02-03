@@ -14,15 +14,7 @@ object ReqUtils {
 
         val call = create.reqFunc()
 
-        val execute = call.execute()
-
-        val body = try {
-            val body = execute.body()
-            return body!!
-        } catch (e: Exception) {
-            throw Exception()
-        }
-        return body!!
+        return getBody(call)
     }
 
     inline fun<reified S,P,T> post(p:P, reqFunc:S.(p :P)-> Call<Result<T>>):Result<T>{
@@ -30,6 +22,11 @@ object ReqUtils {
 
         val call = create.reqFunc(p)
 
+        return getBody(call)
+    }
+
+    fun <T> getBody(call :Call<T>):T{
+
         val execute = call.execute()
 
         val body = try {
@@ -40,5 +37,6 @@ object ReqUtils {
         }
         return body!!
     }
+
 
 }
